@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FUNAAB COLCOMP Registration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green-deep:#0a4d2c; --green:#16883f; --leaf:#5cc46a; --gold:#e9b824;
+  --chalk:#f5f9f3; --ink:#12261b; --muted:#5b6f63; --line:#cfdccf; --bad:#b3261e;
+  --display:"Fraunces",Georgia,serif; --body:"Instrument Sans",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--body);color:var(--ink);background:var(--chalk);min-height:100vh;display:grid;grid-template-columns:minmax(300px,5fr) 7fr}
+
+/* ---------- Left: identity + growing crop ---------- */
+.brand{position:sticky;top:0;height:100vh;background:var(--green-deep);color:#fff;padding:2.5rem 2.5rem 0;display:flex;flex-direction:column;overflow:hidden}
+.brand::before{content:"";position:absolute;inset:auto -20% -30% -20%;height:55%;background:radial-gradient(ellipse at 50% 0,#14693b 0,transparent 70%)}
+.brand header{position:relative;display:flex;align-items:center;gap:1rem}
+.logo{width:96px;height:auto;max-height:96px;object-fit:contain;background:#fff;border-radius:14px;padding:4px;flex:none}
+.brand h1{font-family:var(--display);font-weight:800;font-size:clamp(1.6rem,2.6vw,2.4rem);line-height:1.1;margin:0}
+.brand p{position:relative;max-width:30ch;margin:1.25rem 0 0;color:#cfe8d6;line-height:1.5}
+#greeting{color:var(--gold);font-weight:600}
+.field-scene{position:relative;margin-top:auto;display:flex;flex-direction:column;align-items:center}
+.plant{width:min(260px,70%);height:auto;overflow:visible}
+.plant .stem{transform-origin:50% 100%;transform:scaleY(calc(.04 + var(--p,0)*.96));transition:transform .8s cubic-bezier(.3,1.4,.5,1)}
+.plant .leaf{transform-box:fill-box;transform-origin:var(--ox) 100%;transform:scale(0);transition:transform .7s cubic-bezier(.3,1.5,.5,1)}
+.plant .leaf.on{transform:scale(1)}
+.plant .bloom{transform-box:fill-box;transform-origin:center;transform:scale(0) rotate(-90deg);transition:transform .9s cubic-bezier(.3,1.5,.5,1)}
+.plant .bloom.on{transform:scale(1) rotate(0)}
+.plant .sway{transform-origin:50% 100%;animation:sway 5s ease-in-out infinite}
+@keyframes sway{50%{transform:rotate(2.5deg)}}
+.soil{width:130%;height:46px;background:#3b2a1a;border-radius:50% 50% 0 0/100% 100% 0 0;margin-top:-6px}
+.meter{position:relative;font-weight:600;font-size:.95rem;margin-bottom:.5rem;color:#cfe8d6}
+
+/* ---------- Right: form ---------- */
+main{padding:3rem clamp(1.25rem,5vw,4.5rem)}
+main h2{font-family:var(--display);font-size:clamp(1.7rem,3vw,2.4rem);margin:0 0 .35rem}
+.lede{color:var(--muted);margin:0 0 2rem;max-width:52ch}
+form{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem 1.5rem;max-width:760px}
+.full{grid-column:1/-1}
+.field{position:relative}
+label,legend{font-weight:600;font-size:.92rem;display:block;margin-bottom:.4rem;padding:0}
+input,select{width:100%;font:inherit;color:inherit;padding:.8rem .95rem;border:1.5px solid var(--line);border-radius:10px;background:#fff;transition:border-color .2s,box-shadow .2s}
+input:hover,select:hover{border-color:#9fbaa5}
+input:focus-visible,select:focus-visible,.pill input:focus-visible+span{outline:none;border-color:var(--green);box-shadow:0 0 0 4px rgba(22,136,63,.18)}
+.field.ok input,.field.ok select{border-color:var(--green);padding-right:2.4rem}
+.field.ok::after{content:"";position:absolute;right:.9rem;bottom:1.05rem;width:.55rem;height:.9rem;border:solid var(--green);border-width:0 2.5px 2.5px 0;transform:rotate(45deg) scale(0);animation:tick .35s .05s forwards}
+.field.ok select{padding-right:2.4rem}
+@keyframes tick{to{transform:rotate(45deg) scale(1)}}
+.field.bad input,.field.bad select{border-color:var(--bad)}
+.hint{display:block;min-height:1.1rem;margin-top:.3rem;font-size:.8rem;color:var(--bad)}
+fieldset{border:0;padding:0;margin:0;min-width:0}
+.pills{display:flex;flex-wrap:wrap;gap:.6rem}
+.pill{position:relative}
+.pill input{position:absolute;opacity:0;inset:0;width:100%;height:100%;cursor:pointer}
+.pill span{display:block;padding:.7rem 1.2rem;border:1.5px solid var(--line);border-radius:999px;background:#fff;font-weight:500;transition:all .2s}
+.pill input:checked+span{background:var(--green);border-color:var(--green);color:#fff;transform:translateY(-2px);box-shadow:0 6px 14px rgba(22,136,63,.28)}
+.pill small{display:block;font-size:.72rem;font-weight:400;opacity:.8}
+button{font:inherit;font-weight:600;cursor:pointer;border:0;border-radius:12px;padding:1rem 1.6rem;background:var(--gold);color:var(--ink);transition:transform .15s,box-shadow .2s,opacity .2s}
+button:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 18px rgba(233,184,36,.4)}
+button:active:not(:disabled){transform:translateY(0)}
+button:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+button:disabled{opacity:.5;cursor:not-allowed}
+.actions{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.actions p{margin:0;color:var(--muted);font-size:.85rem}
+.confirm[hidden]{display:none}
+.confirm{max-width:560px;animation:rise .6s cubic-bezier(.2,1.2,.4,1)}
+@keyframes rise{from{opacity:0;transform:translateY(24px) scale(.97)}}
+.confirm dl{display:grid;grid-template-columns:max-content 1fr;gap:.6rem 1.5rem;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:1.4rem;margin:1.5rem 0}
+.confirm dt{color:var(--muted)} .confirm dd{margin:0;font-weight:600;overflow-wrap:anywhere}
+footer{margin-top:3rem;color:var(--muted);font-size:.8rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+@media (max-width:860px){
+  body{grid-template-columns:1fr}
+  .brand{position:relative;height:auto;padding:1.5rem 1.5rem 0}
+  .field-scene{margin-top:1rem}.plant{width:150px}.brand p{display:none}
+  form{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<aside class="brand" aria-label="University identity">
+  <header>
+    <!-- Save your logo in the same folder as this file and name it funaab-logo.jpg.
+         If it is missing, the built-in placeholder crest below is shown instead. -->
+    <img class="logo" id="logo" src="funaab-logo.jpg.jpg" alt="FUNAAB logo"
+         onerror="this.replaceWith(document.getElementById('crest').content.cloneNode(true))">
+    <h1>Federal University of Agriculture, Abeokuta</h1>
+  </header>
+  <p><span id="greeting">Plant your name.</span> Fill in the form and watch the crop grow with you.</p>
+
+  <div class="field-scene" aria-hidden="true">
+    <div class="meter"><span id="count">0</span> of 7 done</div>
+    <svg class="plant" id="plant" viewBox="0 0 200 260" style="--p:0">
+      <g class="sway">
+        <rect class="stem" x="96" y="40" width="8" height="220" rx="4" fill="#5cc46a"/>
+        <path class="leaf" id="l1" style="--ox:100%" d="M100 215 C60 215 38 195 34 168 C66 168 92 184 100 215Z" fill="#2fa355"/>
+        <path class="leaf" id="l2" style="--ox:0%" d="M100 180 C140 180 162 160 166 133 C134 133 108 149 100 180Z" fill="#46b866"/>
+        <path class="leaf" id="l3" style="--ox:100%" d="M100 140 C66 140 48 124 44 102 C72 102 94 114 100 140Z" fill="#5cc46a"/>
+        <path class="leaf" id="l4" style="--ox:0%" d="M100 110 C132 110 150 94 154 74 C128 74 106 86 100 110Z" fill="#7bd886"/>
+        <g class="bloom" id="bloom">
+          <g fill="#e9b824"><ellipse cx="100" cy="22" rx="11" ry="20"/><ellipse cx="100" cy="22" rx="11" ry="20" transform="rotate(60 100 40)"/><ellipse cx="100" cy="22" rx="11" ry="20" transform="rotate(120 100 40)"/><ellipse cx="100" cy="22" rx="11" ry="20" transform="rotate(180 100 40)"/><ellipse cx="100" cy="22" rx="11" ry="20" transform="rotate(240 100 40)"/><ellipse cx="100" cy="22" rx="11" ry="20" transform="rotate(300 100 40)"/></g>
+          <circle cx="100" cy="40" r="11" fill="#7a4a12"/>
+        </g>
+      </g>
+    </svg>
+    <div class="soil"></div>
+  </div>
+</aside>
+
+<main>
+  <section id="formSection" aria-labelledby="title">
+    <h2 id="title">Student registration</h2>
+    <p class="lede">College of Computing (COLCOMP). All fields are required. Your answers stay on this page until you submit them.</p>
+
+    <form id="reg" novalidate autocomplete="on">
+      <div class="field full">
+        <label for="name">Full name</label>
+        <input id="name" name="name" type="text" required minlength="3" autocomplete="name" placeholder="Surname first, e.g. Adebayo Oluwapelumi" data-hint="Enter at least your first and last name.">
+        <span class="hint" aria-live="polite"></span>
+      </div>
+
+      <div class="field">
+        <label for="matric">Matric number</label>
+        <input id="matric" name="matric" type="text" required pattern="[A-Za-z0-9\/]{6,20}" autocapitalize="characters" placeholder="e.g. 20250123" data-hint="Use 6–20 letters, digits or slashes.">
+        <span class="hint" aria-live="polite"></span>
+      </div>
+
+      <div class="field">
+        <label for="dept">Department</label>
+        <select id="dept" name="dept" required data-hint="Choose your department.">
+          <option value="" selected disabled>Select department</option>
+          <option>Computer Science</option>
+          <option>Software Engineering</option>
+          <option>Information Technology</option>
+          <option>Cyber Security</option>
+          <option>Data Science</option>
+          <option>Information Systems</option>
+          <option>Computer Engineering</option>
+        </select>
+        <span class="hint" aria-live="polite"></span>
+      </div>
+
+      <div class="field">
+        <label for="email">Email address</label>
+        <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@example.com" data-hint="Enter a valid email, like you@example.com.">
+        <span class="hint" aria-live="polite"></span>
+      </div>
+
+      <div class="field">
+        <label for="phone">Phone number</label>
+        <input id="phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel" pattern="(\+234|0)[789][01][0-9]{8}" placeholder="08012345678" data-hint="Use a Nigerian number, e.g. 08012345678 or +2348012345678.">
+        <span class="hint" aria-live="polite"></span>
+      </div>
+
+      <div class="field">
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender" required data-hint="Choose an option.">
+          <option value="" selected disabled>Select gender</option>
+          <option>Female</option>
+          <option>Male</option>
+          <option>Prefer not to say</option>
+        </select>
+        <span class="hint" aria-live="polite"></span>
+      </div>
+
+      <fieldset class="field full" id="program" data-hint="Pick one programme.">
+        <legend>Programme</legend>
+        <div class="pills">
+          <label class="pill"><input type="radio" name="program" value="Full-time" required><span>Full-time<small>Every weekday</small></span></label>
+          <label class="pill"><input type="radio" name="program" value="Weekday"><span>Weekday<small>Mon – Fri evenings</small></span></label>
+          <label class="pill"><input type="radio" name="program" value="Weekend"><span>Weekend<small>Sat – Sun</small></span></label>
+        </div>
+        <span class="hint" aria-live="polite"></span>
+      </fieldset>
+
+      <div class="actions full">
+        <button type="submit" id="submit" disabled>Complete registration</button>
+        <p id="status">Fill in all 7 fields to continue.</p>
+      </div>
+    </form>
+  </section>
+
+  <section class="confirm" id="done" aria-labelledby="doneTitle" aria-live="polite" hidden>
+    <h2 id="doneTitle">You’re registered</h2>
+    <p class="lede" id="doneMsg"></p>
+    <dl id="summary"></dl>
+    <button type="button" id="again">Register another student</button>
+  </section>
+
+  <footer><small>FUNAAB College of Computing · Registration demo page</small></footer>
+</main>
+
+<template id="crest">
+  <svg class="logo" viewBox="0 0 100 100" role="img" aria-label="FUNAAB placeholder crest">
+    <circle cx="50" cy="50" r="46" fill="#fff" stroke="#0a4d2c" stroke-width="4"/>
+    <path d="M50 78V46M50 60C38 60 30 52 28 42c12 0 20 6 22 18Zm0-10c10 0 18-6 20-16-11 0-18 6-20 16Z" fill="none" stroke="#16883f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="50" y="92" font-size="11" font-weight="700" text-anchor="middle" fill="#0a4d2c" font-family="sans-serif">FUNAAB</text>
+  </svg>
+</template>
+
+<script>
+(() => {
+  const form = document.getElementById('reg');
+  const plant = document.getElementById('plant');
+  const submit = document.getElementById('submit');
+  const status = document.getElementById('status');
+  const count = document.getElementById('count');
+  const greeting = document.getElementById('greeting');
+  const leaves = ['l1','l2','l3','l4'].map(id => document.getElementById(id));
+  const bloom = document.getElementById('bloom');
+  const fields = [...form.querySelectorAll('input:not([type=radio]), select')];
+  const program = document.getElementById('program');
+  const radios = [...form.querySelectorAll('input[type=radio]')];
+
+  const validOf = el => el.value.trim() !== '' && el.checkValidity();
+  const programValid = () => radios.some(r => r.checked);
+
+  function showState(wrap, ok, hintText) {
+    wrap.classList.toggle('ok', ok);
+    wrap.classList.toggle('bad', !ok && wrap.dataset.touched === '1');
+    wrap.querySelector('.hint').textContent = (!ok && wrap.dataset.touched === '1') ? hintText : '';
+  }
+
+  function update() {
+    let done = 0;
+    fields.forEach(el => {
+      const wrap = el.closest('.field');
+      const ok = validOf(el);
+      if (ok) done++;
+      showState(wrap, ok, el.dataset.hint);
+    });
+    const pOk = programValid();
+    if (pOk) done++;
+    program.classList.toggle('bad', !pOk && program.dataset.touched === '1');
+    program.querySelector('.hint').textContent = (!pOk && program.dataset.touched === '1') ? program.dataset.hint : '';
+
+    count.textContent = done;
+    plant.style.setProperty('--p', done / 7);
+    leaves.forEach((l, i) => l.classList.toggle('on', done >= [1, 3, 4, 6][i]));
+    bloom.classList.toggle('on', done === 7);
+    submit.disabled = done < 7;
+    status.textContent = done === 7 ? 'Everything looks good. Ready to register.' : `Fill in all 7 fields to continue. ${7 - done} left.`;
+  }
+
+  fields.forEach(el => {
+    const wrap = el.closest('.field');
+    el.addEventListener('input', update);
+    el.addEventListener('change', update);
+    el.addEventListener('blur', () => { wrap.dataset.touched = '1'; update(); });
+  });
+  radios.forEach(r => r.addEventListener('change', () => { program.dataset.touched = '1'; update(); }));
+
+  const nameInput = document.getElementById('name');
+  nameInput.addEventListener('input', () => {
+    const first = nameInput.value.trim().split(/\s+/)[0];
+    greeting.textContent = first ? `Welcome, ${first}.` : 'Plant your name.';
+  });
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    fields.forEach(el => el.closest('.field').dataset.touched = '1');
+    program.dataset.touched = '1';
+    update();
+    if (submit.disabled) return;
+    const data = new FormData(form);
+    const labels = { name:'Name', matric:'Matric no.', dept:'Department', email:'Email', gender:'Gender', phone:'Phone', program:'Programme' };
+    const dl = document.getElementById('summary');
+    dl.replaceChildren();
+    Object.keys(labels).forEach(k => {
+      const dt = document.createElement('dt'); dt.textContent = labels[k];
+      const dd = document.createElement('dd'); dd.textContent = data.get(k);
+      dl.append(dt, dd);
+    });
+    document.getElementById('doneMsg').textContent = `Thank you, ${data.get('name').trim().split(/\s+/)[0]}. Here is what we recorded.`;
+    document.getElementById('formSection').hidden = true;
+    document.getElementById('done').hidden = false;
+    document.getElementById('doneTitle').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  document.getElementById('again').addEventListener('click', () => {
+    form.reset();
+    form.querySelectorAll('[data-touched]').forEach(w => delete w.dataset.touched);
+    greeting.textContent = 'Plant your name.';
+    document.getElementById('done').hidden = true;
+    document.getElementById('formSection').hidden = false;
+    update();
+    nameInput.focus();
+  });
+
+  update();
+})();
+</script>
+</body>
+</html>
